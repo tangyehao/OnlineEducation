@@ -20,6 +20,11 @@ public class OssController {
     @Autowired
     private OssService ossService;
 
+    /**
+     * 头像上传
+     * @param file
+     * @return
+     */
     @PostMapping
     public R uploadOssFile(MultipartFile file){
        String url = ossService.uploadFileAvatar(file);

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * <p>
@@ -68,8 +69,13 @@ public class UserController {
     @ApiOperation(value = "修改管理用户")
     @PutMapping("update")
     public R updateById(@RequestBody User user) {
-        userService.updateById(user);
-        return R.ok();
+        User byId = userService.getById(user.getId());
+        if(byId != null || Objects.equals(byId.getIsDeleted(),0)){
+            userService.updateById(user);
+            return R.ok();
+        }else{
+            return R.error();
+        }
     }
 
     @ApiOperation(value = "删除管理用户")

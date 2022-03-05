@@ -100,8 +100,8 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
      * @return
      */
     @Override
-    public CoursePublishVo publishCourseInfo(String courseId) {
-        CoursePublishVo coursePublishInfo = baseMapper.getPublishCourseInfo(courseId);
+    public CoursePublishVo publishCourseInfo(String courseId,Integer deleteFlag) {
+        CoursePublishVo coursePublishInfo = baseMapper.getPublishCourseInfo(courseId,deleteFlag);
         return coursePublishInfo;
     }
 

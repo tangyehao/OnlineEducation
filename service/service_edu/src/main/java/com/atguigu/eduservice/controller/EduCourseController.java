@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * <p>
@@ -34,7 +35,7 @@ public class EduCourseController {
     private EduCourseService courseService;
 
     /**
-     * 条件查询带分页
+     * 分页条件查询课程列表
      * @return
      */
     @PostMapping("pageCourseCondition/{current}/{limit}")
@@ -45,6 +46,7 @@ public class EduCourseController {
         Page<EduCourse> pageCourse = new Page<>(current,limit);
         //构造条件
         LambdaQueryWrapper<EduCourse> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(EduCourse::getIsDeleted,0);
         String title = course.getTitle();
         Integer lessonNum = course.getLessonNum();
         Date gmtCreate = course.getGmtCreate();
@@ -108,7 +110,7 @@ public class EduCourseController {
      */
     @GetMapping("/getPublishCourseInfo/{courseId}")
     public R getPublishCourseInfo(@PathVariable String courseId){
-        CoursePublishVo coursePublishVo = courseService.publishCourseInfo(courseId);
+        CoursePublishVo coursePublishVo = courseService.publishCourseInfo(courseId,0);
         return R.ok().data("publishCourse",coursePublishVo);
     }
 
@@ -128,7 +130,11 @@ public class EduCourseController {
 
     @DeleteMapping("deleteCourse/{courseId}")
     public R deleteCourse(@PathVariable String courseId){
-       courseService.deleteCourse(courseId);
+        EduCourse one = courseService.getOne(new LambdaQueryWrapper<EduCourse>().eq(EduCourse::getId, courseId));
+        if(one != null || !Objects.equals(one.getIsDeleted(),0)){
+            one.setIsDeleted(1);
+            courseService.updateById(one);
+        }
         return R.ok();
     }
 }

@@ -25,9 +25,11 @@ public class EduSubjectController {
     @Autowired
     private EduSubjectService subjectService;
 
-    //添加课程分类
-    //获取上传的文件，把文件内容读取出来
-
+    /**
+     * 添加课程分类
+     * @param file
+     * @return
+     */
     @PostMapping("addSubject")
     public R addSubject(MultipartFile file){
         subjectService.addSubject(file,subjectService);
