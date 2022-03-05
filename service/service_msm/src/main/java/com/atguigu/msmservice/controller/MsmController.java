@@ -48,7 +48,8 @@ public class MsmController {
         param.put("code", code);
         boolean isSend = msmService.send(phone, "SMS_180051135", param);
         if(isSend) {
-            redisTemplate.opsForValue().set(phone, code,5, TimeUnit.MINUTES);             return R.ok();
+            redisTemplate.opsForValue().set(phone, code,5, TimeUnit.MINUTES);
+            return R.ok();
         } else {
             return R.error().message("发送短信失败");
         }

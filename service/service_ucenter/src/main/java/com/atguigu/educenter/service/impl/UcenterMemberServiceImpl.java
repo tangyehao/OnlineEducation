@@ -79,10 +79,11 @@ public class UcenterMemberServiceImpl extends ServiceImpl<UcenterMemberMapper, U
         QueryWrapper<UcenterMember> wrapper = new QueryWrapper<>();
         wrapper.eq("mobile",mobile);
         Integer integer = baseMapper.selectCount(wrapper);
+        String redisCode = redisTemplate.opsForValue().get(mobile);
         if(integer > 0){
+            redisTemplate.delete(mobile);
             throw new GuliException(20001,"手机号码重复，请重新输入");
         }
-        String redisCode = redisTemplate.opsForValue().get(mobile);
         if(!code.equals(redisCode)){
             throw new GuliException(20001,"验证码错误或已经失效");
         }
