@@ -1,7 +1,6 @@
 package com.atguigu.staservice.service.impl;
 
 import com.atguigu.commonutils.R;
-import com.atguigu.servicebase.handler.GlobalExceptionHandler;
 import com.atguigu.staservice.client.UcenterClient;
 import com.atguigu.staservice.entity.StatisticsDaily;
 import com.atguigu.staservice.mapper.StatisticsDailyMapper;
@@ -9,7 +8,6 @@ import com.atguigu.staservice.service.StatisticsDailyService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.commons.lang3.RandomUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,7 +33,7 @@ public class StatisticsDailyServiceImpl extends ServiceImpl<StatisticsDailyMappe
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void registerCount(String day) {
+    public void     registerCount(String day) {
 
         //添加记录前删除相同日期的数据
         QueryWrapper<StatisticsDaily> wrapper = new QueryWrapper<>();
@@ -45,9 +43,9 @@ public class StatisticsDailyServiceImpl extends ServiceImpl<StatisticsDailyMappe
         R registerR = ucenterClient.countRegister(day);
         Integer countRegister = (Integer)registerR.getData().get("countRegister");
 
-        Integer loginNum = RandomUtils.nextInt(100, 200);//TODO
-        Integer videoViewNum = RandomUtils.nextInt(100, 200);//TODO
-        Integer courseNum = RandomUtils.nextInt(100, 200);//TODO
+        Integer loginNum = RandomUtils.nextInt(100, 200);
+        Integer videoViewNum = RandomUtils.nextInt(100, 200);
+        Integer courseNum = RandomUtils.nextInt(100, 200);
 
         StatisticsDaily daily = new StatisticsDaily();
         daily.setLoginNum(loginNum);

@@ -14,11 +14,12 @@ import org.springframework.context.annotation.ComponentScan;
  * @DATE 2021-10-20 14:50
  * @Version 1.0
  */
-                            //不加载数据库默认配置
+//不加载数据库默认配置
 @SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
 @ComponentScan(basePackages = {"com.atguigu"})
 @EnableDiscoveryClient
-@EnableFeignClients//服务调用
+//服务调用
+@EnableFeignClients
 public class VodApplication {
     public static void main(String[] args) {
         SpringApplication.run(VodApplication.class);

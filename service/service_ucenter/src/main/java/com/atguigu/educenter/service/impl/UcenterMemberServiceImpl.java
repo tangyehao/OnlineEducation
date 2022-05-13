@@ -10,14 +10,12 @@ import com.atguigu.educenter.service.UcenterMemberService;
 import com.atguigu.servicebase.handler.selfexception.GuliException;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.validation.constraints.NotBlank;
-import java.util.Arrays;
 
 /**
  * <p>
@@ -93,6 +91,11 @@ public class UcenterMemberServiceImpl extends ServiceImpl<UcenterMemberMapper, U
         member.setPassword(MD5.encrypt(password));
         member.setIsDisabled(false);
         baseMapper.insert(member);
+    }
+
+    @Override
+    public Integer countRegisterByDay(String day) {
+        return baseMapper.selectRegisterCount(day);
     }
 
 }
