@@ -2,9 +2,13 @@ package com.atguigu.staservice.controller;
 
 
 import com.atguigu.commonutils.R;
+import com.atguigu.servicebase.handler.selfexception.GuliException;
 import com.atguigu.staservice.service.StatisticsDailyService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.Map;
@@ -29,8 +33,11 @@ public class StatisticsDailyController {
      * @param day
      * @return
      */
-    @PostMapping("registerCount/{day}")
+    @GetMapping("registerCount/{day}")
     public R registerCount(@PathVariable String day){
+        if(day == null || "".equals(day)){
+            throw new GuliException(20001,"日期不能为空");
+        }
         staService.registerCount(day);
         return R.ok();
     }
@@ -43,7 +50,7 @@ public class StatisticsDailyController {
      * @return
      */
     @GetMapping("showData/{type}/{begin}/{end}")
-    public R showData(@Valid String type, @PathVariable String begin, @PathVariable String end){
+    public R showData(@Valid @PathVariable String type, @PathVariable String begin, @PathVariable String end){
         Map<String,Object> map = staService.getShowData(type,begin,end);
         return R.ok().data(map);
     }

@@ -8,6 +8,7 @@ import com.atguigu.educenter.entity.UcenterMember;
 import com.atguigu.educenter.entity.vo.LoginVo;
 import com.atguigu.educenter.entity.vo.RegisterVo;
 import com.atguigu.educenter.service.UcenterMemberService;
+import com.atguigu.servicebase.handler.selfexception.GuliException;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,9 +67,18 @@ public class UcenterMemberController {
     @PostMapping("getUserInfoOrder/{id}")
     public UcenterMemberOrder getUserInfoOrder(@PathVariable String id){
         UcenterMember member = memberService.getById(id);
+        if(member == null){
+            throw new GuliException(20001,"用户不存在");
+        }
         UcenterMemberOrder memberOrder = new UcenterMemberOrder();
         BeanUtils.copyProperties(member,memberOrder);
         return memberOrder;
+    }
+
+    @GetMapping(value = "countRegister/{day}")
+    public R registerCount(@PathVariable String day){
+        Integer count = memberService.countRegisterByDay(day);
+        return R.ok().data("countRegister", count);
     }
 
 
